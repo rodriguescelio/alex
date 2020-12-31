@@ -1,5 +1,4 @@
 const { Command } = require('discord-akairo');
-const voices = require('../langs.json');
 
 class LangsCommand extends Command {
   constructor() {
@@ -9,6 +8,7 @@ class LangsCommand extends Command {
   }
 
   async exec(event) {
+    const voices = this.client.speechService.getVoices();
     const voicesMap = voices.map(it => `(${it.language}) - ${it.description}`);
     const mid = Math.ceil(voicesMap.length / 2);
 

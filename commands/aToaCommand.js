@@ -1,6 +1,4 @@
 const { Command } = require('discord-akairo');
-const LanguageTranslatorV3 = require('ibm-watson/language-translator/v3');
-const { IamAuthenticator } = require('ibm-watson/auth');
 const axios = require('axios');
 
 class AToaCommand extends Command {
@@ -14,34 +12,11 @@ class AToaCommand extends Command {
         },
       ]
     });
-
-    this.languageTranslator = new LanguageTranslatorV3({
-      version: '2018-05-01',
-      authenticator: new IamAuthenticator({
-        apikey: process.env.TRANSLATOR_APIKEY,
-      }),
-      serviceUrl: process.env.TRANSLATOR_SERVICE_URL,
-    });
   }
 
   async find() {
     const result = await axios.get(process.env.BORED_API_URL).then(res => res.data);
     return result.activity;
-  }
-
-  async translate(text) {
-    const result = await this.languageTranslator
-      .translate({
-        text,
-        source: 'en',
-        target: 'pt'
-      }).then(res => res.result.translations);
-
-    if (result.length === 0) {
-      throw new Error();
-    }
-
-    return result[0].translation;
   }
 
   async exec(event, args) {
@@ -51,7 +26,7 @@ class AToaCommand extends Command {
 
     try {
       const activity = await this.find();
-      const translated = await this.translate(activity);
+      const translated = await this.client.translatorService.translate(activity);
 
       if (translated) {
         const msg = `Náo fique à toa! ${translated}`;
