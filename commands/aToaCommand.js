@@ -20,8 +20,6 @@ class AToaCommand extends Command {
   }
 
   async exec(event, args) {
-    const m = 'Just a test';
-
     const aguarde = await event.channel.send('Consultando os deuses do tédio...');
 
     try {
