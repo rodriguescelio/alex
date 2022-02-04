@@ -1,17 +1,12 @@
-const { Command } = require('discord-akairo');
 const axios = require('axios');
 
-class AToaCommand extends Command {
-  constructor() {
-    super('atoa', {
-      aliases: ['atoa'],
-      args: [
-        {
-          id: 'user',
-          type: 'user',
-        },
-      ]
-    });
+class AToaCommand {
+  constructor(client) {
+    this.client = client;
+    this.command = 'atoa';
+    this.args = [
+      { name: 'user', defaultOption: true }
+    ];
   }
 
   async find() {
@@ -28,8 +23,8 @@ class AToaCommand extends Command {
 
       if (translated) {
         const msg = `Náo fique à toa! ${translated}`;
-        if (args.user) {
-          event.channel.send(`<@${args.user.id}> ${msg}`);
+        if (args.user && /<@!\d+>/.test(args.user)) {
+          event.channel.send(`${args.user} ${msg}`);
         } else {
           event.reply(msg);
         }
@@ -39,8 +34,6 @@ class AToaCommand extends Command {
     }
 
     aguarde.delete();
-
-    return true;
   }
 }
 

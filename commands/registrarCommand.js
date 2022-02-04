@@ -1,47 +1,19 @@
-const { Command } = require('discord-akairo');
-
-class RegistrarCommand extends Command {
-  constructor() {
-    super('registrar', {
-      aliases: ['registrar'],
-      args: [
-        {
-          id: 'command',
-          match: 'option',
-          flag: ['-c ', '-command'],
-        },
-        {
-          id: 'text',
-          match: 'option',
-          flag: ['-t', '-text'],
-        },
-        {
-          id: 'image',
-          match: 'option',
-          flag: ['-i', '-image'],
-        },
-        {
-          id: 'video',
-          match: 'option',
-          flag: ['-v', '-video'],
-        },
-        {
-          id: 'audio',
-          match: 'option',
-          flag: ['-a', '-audio'],
-        },
-        {
-          id: 'playAudio',
-          match: 'flag',
-          flag: ['-p', '-play'],
-        },
-      ]
-    });
+class RegistrarCommand {
+  constructor(client) {
+    this.client = client;
+    this.command = 'registrar';
+    this.args = [
+      { name: 'command', alias: 'c', type: String },
+      { name: 'text', alias: 't', type: String },
+      { name: 'audio', alias: 'a', type: String },
+      { name: 'image', alias: 'i', type: String },
+      { name: 'video', alias: 'v', type: String },
+      { name: 'playAudio', alias: 'p', type: Boolean },
+    ];
   }
 
   async exec(event, args) {
     let message = 'comando inválido!';
-
     if (Object.values(args).filter(it => !!it).length > 1) {
       if (this.client.databaseService.commands.indexOf(args.command.toLowerCase()) === -1) {
         try {
@@ -61,7 +33,6 @@ class RegistrarCommand extends Command {
         message = `o comando \`\`!${args.command}\`\` já existe!`;
       }
     }
-
     event.reply(message);
   }
 }

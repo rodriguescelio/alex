@@ -1,17 +1,12 @@
-const { Command } = require('discord-akairo');
 const axios = require('axios');
 
-class OfenderCommand extends Command {
-  constructor() {
-    super('ofender', {
-      aliases: ['ofender', 'xingar'],
-      args: [
-        {
-          id: 'user',
-          type: 'user',
-        },
-      ]
-    });
+class OfenderCommand {
+  constructor(client) {
+    this.client = client;
+    this.command = 'ofender';
+    this.args = [
+      { name: 'user', defaultOption: true }
+    ];
   }
 
   async find() {
@@ -21,24 +16,18 @@ class OfenderCommand extends Command {
 
   async exec(event, args) {
     const aguarde = await event.channel.send('Consultando os deuses do ódio...');
-
     try {
       const insult = await this.find();
       const translated = await this.client.translatorService.translate(insult);
-
-      if (args.user) {
-        event.channel.send(`<@${args.user.id}> ${translated}`);
+      if (args.user && /<@!\d+>/.test(args.user)) {
+        event.channel.send(`${args.user} ${translated}`);
       } else {
         event.reply(translated);
       }
-
     } catch (e) {
       event.channel.send('Todos os deuses estão ocupados no momento!');
     }
-
     aguarde.delete();
-
-    return true;
   }
 }
 

@@ -1,10 +1,7 @@
-const { Command } = require('discord-akairo');
-
-class ListCommandCommandsCommand extends Command {
-  constructor() {
-    super('comandos', {
-      aliases: ['command', 'comandos'],
-    });
+class ComandosCommand {
+  constructor(client) {
+    this.client = client;
+    this.command = 'comandos';
   }
 
   tipoComando (comando) {
@@ -34,4 +31,4 @@ class ListCommandCommandsCommand extends Command {
   }
 }
 
-module.exports = ListCommandCommandsCommand;
+module.exports = ComandosCommand;

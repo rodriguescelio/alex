@@ -1,14 +1,17 @@
 {
   "dependencies": {
-    "@discordjs/opus": "^0.3.3",
+    "@discordjs/builders": "^0.12.0",
+    "@discordjs/voice": "^0.8.0",
     "@jimp/png": "^0.16.1",
-    "axios": "^0.21.1",
-    "discord-akairo": "^8.1.0",
-    "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0",
-    "ibm-watson": "^6.0.1",
+    "aoi.js": "^5.0.8",
+    "axios": "^0.25.0",
+    "command-line-args": "^5.2.1",
+    "discord-command-parser": "^1.5.3",
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "ibm-watson": "^6.2.2",
     "jimp": "^0.16.1",
-    "sequelize": "^6.5.0",
+    "sequelize": "^6.15.0",
     "sqlite3": "^5.0.2"
   }
 }

@@ -1,6 +1,11 @@
 require('dotenv').config();
 
+const { join } = require('path');
 const Alex = require('./alex');
 
-const client = new Alex();
-client.login(process.env.DISCORD_TOKEN);
+const alex = new Alex({
+  prefix: '!',
+  commands: join(__dirname, 'commands'),
+});
+
+alex.login(process.env.DISCORD_TOKEN);

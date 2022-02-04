@@ -1,10 +1,7 @@
-const { Command } = require('discord-akairo');
-
-class LangsCommand extends Command {
-  constructor() {
-    super('langs', {
-      aliases: ['langs', 'lang'] 
-    });
+class LangsCommand {
+  constructor(client) {
+    this.client = client;
+    this.command = 'langs';
   }
 
   async exec(event) {
@@ -19,8 +16,6 @@ class LangsCommand extends Command {
 
     await event.channel.send(red(a, 1));
     await event.channel.send(red(b, mid + 1));
-
-    return true;
   }
 }
 

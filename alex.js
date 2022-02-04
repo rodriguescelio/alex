@@ -1,24 +1,75 @@
-const { AkairoClient, CommandHandler, ListenerHandler } = require('discord-akairo');
+const { Client, Intents } = require('discord.js');
+const { readdirSync } = require('fs');
+const { join } = require('path');
+const { parse } = require('discord-command-parser');
+const commandLineArgs = require('command-line-args');
+
 const DatabaseService = require('./services/databaseService');
 const SpeechService = require('./services/speechService');
 const TranslatorService = require('./services/translatorService');
 const VoiceService = require('./services/voiceService');
 
-class Alex extends AkairoClient {
-  constructor() {
-    super();
-    this.commandHandler = new CommandHandler(this, { directory: './commands', prefix: '!', commandUtil: true });
-    this.listenerHandler = new ListenerHandler(this, { directory: './listeners' });
+class Alex extends Client {
+  constructor(config) {
+    super({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] });
+
+    if (!config) {
+      throw new Error("Config required");
+    }
+
+    this.config = config;
+    this.commands = [];
 
     this.speechService = new SpeechService();
     this.translatorService = new TranslatorService();
     this.voiceService = new VoiceService();
     this.databaseService = new DatabaseService();
 
-    this.commandHandler.useListenerHandler(this.listenerHandler);
+    this.registerEvents();
+    this.registerCommands();
+  }
 
-    this.commandHandler.loadAll();
-    this.listenerHandler.loadAll();
+  registerEvents() {
+    this.on('ready', () => console.log(`Connected as ${this.user.tag}!`));
+    this.on('messageCreate', this.onMessage);
+  }
+
+  registerCommands() {
+    readdirSync(this.config.commands).forEach(file => {
+      const commandClass = require(join(this.config.commands, file));
+      if (typeof commandClass === 'function') {
+        const instance = new commandClass(this);
+        if (!instance.command && !instance.conditional) {
+          throw new Error(`Invalid command declaration ${file}`);
+        }
+        this.commands.push(instance);
+      }
+    });
+  }
+
+  runCommand(message, command, action) {
+    let args = {};
+    if (command.args) {
+      args = commandLineArgs(command.args, {
+        argv: action.arguments,
+        partial: true,
+      });
+    }
+    command.exec(message, args, action.command);
+  }
+
+  onMessage(message) {
+    const action = parse(message, this.config.prefix);
+    if (action.success) {
+      const command = this.commands.find(it => it.command && it.command.toLowerCase() === action.command.toLowerCase());
+      if (command) {
+        this.runCommand(message, command, action);
+      } else {
+        this.commands
+          .filter(it => it.conditional)
+          .forEach(command => this.runCommand(message, command, action));
+      }
+    }
   }
 }
 

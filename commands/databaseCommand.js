@@ -1,26 +1,15 @@
 const axios = require('axios');
-const { Command } = require('discord-akairo');
-const { MessageAttachment } = require('discord.js');
 
-class DatabaseCommand extends Command {
-  constructor() {
-    super('database', {
-      category: 'random'
-    });
+class DatabaseCommand {
+  constructor(client) {
+    this.client = client;
+    this.conditional = true;
   }
 
-  condition(message) {
-    let result = false;
-    if (!!message.util.parsed.prefix && message.util.parsed.prefix === '!') {
-      result = this.client.databaseService.commands.indexOf(message.util.parsed.alias.toLowerCase()) !== -1;
-    }
-    return result;
-  }
-
-  async exec(event) {
+  async exec(event, _, commandStr) {
     const command = await this.client.databaseService.models.command.findOne({
       where: { 
-        command: event.util.parsed.alias.toLowerCase()
+        command: commandStr.toLowerCase()
       }
     });
 
@@ -30,7 +19,7 @@ class DatabaseCommand extends Command {
       }
 
       if (command.image) {
-        await event.channel.send(new MessageAttachment(command.image));
+        await event.channel.send(command.image);
       }
 
       if (command.video) {
@@ -42,7 +31,7 @@ class DatabaseCommand extends Command {
           const audio = await axios.get(command.audio, { responseType: 'arraybuffer' }).then(res => res.data);
           await this.client.voiceService.stream(event, audio);
         } else {
-          await event.channel.send(new MessageAttachment(command.audio));
+          await event.channel.send(command.audio);
         }
       }
     }

@@ -1,16 +1,10 @@
-const { Command } = require('discord-akairo');
-
-class ExcluirCommand extends Command {
-  constructor() {
-    super('excluir', {
-      aliases: ['excluir'],
-      args: [
-        {
-          id: 'command',
-          type: 'string',
-        },
-      ]
-    });
+class ExcluirCommand {
+  constructor(client) {
+    this.client = client;
+    this.command = 'excluir';
+    this.args = [
+      { name: 'command', type: String, defaultOption: true }
+    ];
   }
 
   async exec(event, args) {
@@ -29,15 +23,15 @@ class ExcluirCommand extends Command {
             await this.client.databaseService.models.command.destroy({ where: { id: command.id } });
             await this.client.databaseService.loadCommands();
 
-            message = 'comando excluido com sucesso!';
+            message = 'Comando excluido com sucesso!';
           } else {
-            message = `este comando foi criado por <@${command.createdBy}>, somente ele pode excluí-lo!`;
+            message = `Este comando foi criado por <@${command.createdBy}>, somente ele pode excluí-lo!`;
           }
         } else {
-          message = `comando \`\`${args.command}\`\` não encontrado!`;
+          message = `Comando \`\`${args.command}\`\` não encontrado!`;
         }
       } else {
-        message = `comando \`\`${args.command}\`\` não encontrado!`;
+        message = `Comando \`\`${args.command}\`\` não encontrado!`;
       }
     }
 

@@ -1,20 +1,13 @@
-const { Command } = require('discord-akairo');
-
-class CleanCommand extends Command {
-  constructor() {
-    super('clean', {
-      aliases: ['clean']
-    });
+class CleanCommand {
+  constructor(client) {
+    this.client = client;
+    this.command = 'clean';
   }
 
   async exec(event) {
     const messages = await event.channel.messages.fetch();
-    messages.forEach(it => {
-      if (it.author.id === this.client.user.id && it.deletable) {
-        it.delete();
-      }
-    });
-    return true;
+    const batch = messages.filter(it => it.author.id === this.client.user.id && it.deletable);
+    event.channel.bulkDelete(batch);
   }
 }
 
