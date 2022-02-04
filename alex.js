@@ -32,6 +32,15 @@ class Alex extends Client {
   registerEvents() {
     this.on('ready', () => console.log(`Connected as ${this.user.tag}!`));
     this.on('messageCreate', this.onMessage);
+    this.on('interaction', this.onInteraction);
+  }
+
+  onInteraction(interaction) {
+    this.commands.forEach(it => {
+      if (it.onInteraction) {
+        it.onInteraction(interaction);
+      }
+    })
   }
 
   registerCommands() {
