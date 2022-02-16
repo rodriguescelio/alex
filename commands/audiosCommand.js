@@ -28,6 +28,9 @@ class AudiosCommand {
       where: { 
         playAudio: true
       },
+      order: [
+        ['command']
+      ],
     });
 
     const rows = [];
