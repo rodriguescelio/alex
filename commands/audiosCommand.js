@@ -8,6 +8,10 @@ class AudiosCommand {
     this.command = 'audios';
   }
 
+  async saveStatistic(command, user) {
+    await this.client.databaseService.models.commandsStatistic.create({ user, command });
+  }
+
   async onInteraction(interaction) {
     if (interaction.isButton() && interaction.customId.indexOf('audiosCommand') === 0) {
       const command = await this.client.databaseService.models.command.findOne({
@@ -16,10 +20,12 @@ class AudiosCommand {
         },
       });
 
-      const audio = await axios.get(command.audio, { responseType: 'arraybuffer' }).then(res => res.data);
-      await this.client.voiceService.stream(interaction, audio);
-
-      await interaction.deferUpdate();
+      if (command) {
+        this.saveStatistic(command.command, interaction.user.id);
+        const audio = await axios.get(command.audio, { responseType: 'arraybuffer' }).then(res => res.data);
+        await this.client.voiceService.stream(interaction, audio);
+        await interaction.deferUpdate();
+      }
     }
   }
 

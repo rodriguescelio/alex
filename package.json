@@ -1,9 +1,11 @@
 {
+  "scripts": {
+    "start": "nodemon ."
+  },
   "dependencies": {
     "@discordjs/builders": "^0.12.0",
     "@discordjs/voice": "^0.8.0",
     "@jimp/png": "^0.16.1",
-    "aoi.js": "^5.0.8",
     "axios": "^0.25.0",
     "command-line-args": "^5.2.1",
     "discord-command-parser": "^1.5.3",
@@ -12,7 +14,11 @@
     "ffmpeg-static": "^4.4.1",
     "ibm-watson": "^6.2.2",
     "jimp": "^0.16.1",
+    "moment": "^2.29.1",
     "sequelize": "^6.15.0",
     "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }

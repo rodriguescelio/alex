@@ -6,6 +6,10 @@ class DatabaseCommand {
     this.conditional = true;
   }
 
+  async saveStatistic(command, user) {
+    await this.client.databaseService.models.commandsStatistic.create({ user, command });
+  }
+
   async exec(event, _, commandStr) {
     const command = await this.client.databaseService.models.command.findOne({
       where: { 
@@ -14,6 +18,8 @@ class DatabaseCommand {
     });
 
     if (command) {
+      this.saveStatistic(command.command, event.author.id);
+
       if (command.text) {
         await event.channel.send(command.text);
       }
