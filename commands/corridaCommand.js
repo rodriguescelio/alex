@@ -1,4 +1,4 @@
-class SaldoCommand {
+class CorridaCommand {
   constructor(client) {
     this.client = client;
     this.i18n = client.i18n.corrida;
@@ -114,4 +114,4 @@ class SaldoCommand {
   }
 }
 
-module.exports = SaldoCommand;
+module.exports = CorridaCommand;
