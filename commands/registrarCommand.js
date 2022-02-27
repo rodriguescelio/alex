@@ -1,7 +1,8 @@
 class RegistrarCommand {
   constructor(client) {
     this.client = client;
-    this.command = 'registrar';
+    this.i18n = client.i18n.registrar;
+    this.command = this.i18n.command;
     this.args = [
       { name: 'command', alias: 'c', type: String },
       { name: 'text', alias: 't', type: String },
@@ -13,7 +14,7 @@ class RegistrarCommand {
   }
 
   async exec(event, args) {
-    let message = 'comando inválido!';
+    let message = this.i18n.invalid;
     if (Object.values(args).filter(it => !!it).length > 1) {
       if (this.client.databaseService.commands.indexOf(args.command.toLowerCase()) === -1) {
         try {
@@ -25,12 +26,12 @@ class RegistrarCommand {
 
           await this.client.databaseService.loadCommands();
 
-          message = `comando criado com sucesso! Para executa-lo digite \`\`!${args.command}\`\`.`;
+          message = this.i18n.success.replace('{{C}}', args.command);
         } catch (e) {
-          message = `não foi possível criar o comando!`;
+          message = this.i18n.error;
         }
       } else {
-        message = `o comando \`\`!${args.command}\`\` já existe!`;
+        message = this.i18n.exists.replace('{{C}}', args.command);
       }
     }
     event.reply(message);

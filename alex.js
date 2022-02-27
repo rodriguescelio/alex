@@ -1,5 +1,5 @@
 const { Client, Intents } = require('discord.js');
-const { readdirSync } = require('fs');
+const { readdirSync, existsSync } = require('fs');
 const { join } = require('path');
 const { parse } = require('discord-command-parser');
 const commandLineArgs = require('command-line-args');
@@ -8,6 +8,7 @@ const DatabaseService = require('./services/databaseService');
 const SpeechService = require('./services/speechService');
 const TranslatorService = require('./services/translatorService');
 const VoiceService = require('./services/voiceService');
+const BankService = require('./services/bankService');
 
 class Alex extends Client {
   constructor(config) {
@@ -19,14 +20,30 @@ class Alex extends Client {
 
     this.config = config;
     this.commands = [];
+    this.i18n = {};
 
     this.speechService = new SpeechService();
     this.translatorService = new TranslatorService();
     this.voiceService = new VoiceService();
     this.databaseService = new DatabaseService();
+    this.bankService = new BankService(this);
 
+    this.loadLanguage();
     this.registerEvents();
     this.registerCommands();
+  }
+
+  loadLanguage() {
+    const lang = this.config.lang || 'pt_BR';
+    const dir = join(__dirname, 'langs');
+    let file = join(dir, `${lang}.json`);
+
+    if (!existsSync(file)) {
+      file = join(dir, 'pt_BR.json');
+    }
+
+    const i18n = require(file);
+    Object.keys(i18n).forEach(key => (this.i18n[key] = i18n[key]));
   }
 
   registerEvents() {

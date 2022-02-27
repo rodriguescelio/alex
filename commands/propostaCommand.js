@@ -1,12 +1,12 @@
 const Jimp = require('jimp');
 
 const TEMPLATE = 'https://cdn.discordapp.com/attachments/712761331245383683/864929563561426954/template.png';
-const MESSAGE = "Queremos voce aqui!!";
 
 class PropostaCommand {
   constructor(client) {
     this.client = client;
-    this.command = 'proposta';
+    this.i18n = client.i18n.proposta;
+    this.command = this.i18n.command;
     this.args = [
       { name: 'text', alias: 't', type: String }
     ];
@@ -23,7 +23,7 @@ class PropostaCommand {
       const to = await Jimp.read(userTo.displayAvatarURL({ size: 64, format: 'png' }));
       const font = await Jimp.loadFont(Jimp.FONT_SANS_14_BLACK);
 
-      const text = `${userTo.username}. ${args.text || MESSAGE}`;
+      const text = `${userTo.username}. ${args.text || this.i18n.message}`;
 
       const image = await template
         .composite(from, 185, 12)

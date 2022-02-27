@@ -13,7 +13,7 @@ class DatabaseService {
   }
 
   registerModels() {
-    const dir = join(__dirname, '../models');
+    const dir = join(__dirname, '../models/entity');
     readdirSync(dir).forEach(filename => require(join(dir, filename))(this.sequelize));
     return this.sequelize.sync({ alter: true });
   }

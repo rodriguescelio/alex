@@ -3,7 +3,8 @@ const axios = require('axios');
 class AToaCommand {
   constructor(client) {
     this.client = client;
-    this.command = 'atoa';
+    this.i18n = client.i18n.aToa;
+    this.command = this.i18n.command;
     this.args = [
       { name: 'user', defaultOption: true }
     ];
@@ -15,14 +16,14 @@ class AToaCommand {
   }
 
   async exec(event, args) {
-    const aguarde = await event.channel.send('Consultando os deuses do tédio...');
+    const aguarde = await event.channel.send(this.i18n.loading);
 
     try {
       const activity = await this.find();
       const translated = await this.client.translatorService.translate(activity);
 
       if (translated) {
-        const msg = `Náo fique à toa! ${translated}`;
+        const msg = `${this.i18n.result} ${translated}`;
         if (args.user && /<@!\d+>/.test(args.user)) {
           event.channel.send(`${args.user} ${msg}`);
         } else {
@@ -30,7 +31,7 @@ class AToaCommand {
         }
       }
     } catch (e) {
-      event.channel.send('Todos os deuses estão ocupados no momento!');
+      event.channel.send(this.i18n.error);
     }
 
     aguarde.delete();

@@ -5,7 +5,8 @@ class AudiosCommand {
 
   constructor(client) {
     this.client = client;
-    this.command = 'audios';
+    this.i18n = client.i18n.audios;
+    this.command = this.i18n.command;
   }
 
   async saveStatistic(command, user) {
@@ -60,7 +61,7 @@ class AudiosCommand {
     for (let i = 0; i < Math.ceil(rows.length / 5); i++) {
       const arr = Array.from(Array(5), (_, k) => rows[k + (5 * i)]);
       event.channel.send({
-        content: i == 0 ? 'Clique para reproduzir.' : Array.from(Array(100), (_, k) => '-').join(''),
+        content: i == 0 ? this.i18n.title : Array.from(Array(100), (_, k) => '-').join(''),
         components: arr.filter(it => !!it)
       });
     }

@@ -4,7 +4,8 @@ const moment = require('moment');
 class StatsCommand {
   constructor(client) {
     this.client = client;
-    this.command = 'stats';
+    this.i18n = client.i18n.stats;
+    this.command = this.i18n.command;
   }
 
   dateToString(date) {
@@ -68,12 +69,12 @@ class StatsCommand {
 
     const message = new MessageEmbed()
       .setColor('#0099ff')
-      .setTitle('Estatisticas')
+      .setTitle(this.i18n.title)
       .addFields(
-        { name: 'Comandos', value: commands, inline: true },
-        { name: 'Usuários', value: users, inline: true },
-        { name: 'Mais executados por usuário', value: mostExecuted, inline: true },
-        { name: 'Ultimos executados', value: lastExecuteds },
+        { name: this.i18n.commands, value: commands, inline: true },
+        { name: this.i18n.users, value: users, inline: true },
+        { name: this.i18n.mostExec, value: mostExecuted, inline: true },
+        { name: this.i18n.lastExec, value: lastExecuteds },
       );
 
     event.reply({ embeds: [message] });

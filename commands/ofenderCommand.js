@@ -3,7 +3,8 @@ const axios = require('axios');
 class OfenderCommand {
   constructor(client) {
     this.client = client;
-    this.command = 'ofender';
+    this.i18n = client.i18n.ofender;
+    this.command = this.i18n.command;
     this.args = [
       { name: 'user', defaultOption: true }
     ];
@@ -15,7 +16,7 @@ class OfenderCommand {
   }
 
   async exec(event, args) {
-    const aguarde = await event.channel.send('Consultando os deuses do ódio...');
+    const aguarde = await event.channel.send(this.i18n.loading);
     try {
       const insult = await this.find();
       const translated = await this.client.translatorService.translate(insult);
@@ -25,7 +26,7 @@ class OfenderCommand {
         event.reply(translated);
       }
     } catch (e) {
-      event.channel.send('Todos os deuses estão ocupados no momento!');
+      event.channel.send(this.i18n.error);
     }
     aguarde.delete();
   }

@@ -1,0 +1,95 @@
+{
+  "bank": {
+    "initial": "Valor inicial - Cadastro",
+    "reward": "Recompensa"
+  },
+  "aToa": {
+    "command": "aToa",
+    "loading": "Consultando os deuses do tédio...",
+    "error": "Todos os deuses estão ocupados no momento!",
+    "result": "Náo fique à toa!"
+  },
+  "audios": {
+    "command": "audios",
+    "title": "Clique para reproduzir."
+  },
+  "byIury": {
+    "command": "byIury",
+    "loading": "Consultando o Iury, aguarde..."
+  },
+  "comandos": {
+    "command": "comandos",
+    "undefined": "tipo não definido",
+    "type": "Tipo",
+    "text": "Texto",
+    "image": "Imagem",
+    "video": "Vídeo",
+    "audio": "Áudio",
+    "result": "Lista de comandos registrados:\n```{{LISTA_COMANDOS}}```",
+    "empty": "Nenhum comando registrado!"
+  },
+  "corrida": {
+    "command": "corrida",
+    "bankLabelBet": "Aposta corrida",
+    "bankLabelPrize": "Premio corrida",
+    "winnerMessage": "Vencedor: <@!{{WINNER}}> - Prêmio: P$ {{PRIZE}}",
+    "cancel": "Corrida cancelada devido à falta de participantes.",
+    "noBalance": "<@!{{USER}}> saldo insuficiente.",
+    "bay": "Baia nº {{N}} - <@!{{U}}>",
+    "invalid": "Comando Inválido",
+    "message": "@here Corrida de cavalos criada por ``{{U}}`` iniciando em {{T}} segundos com a aposta de P$ {{V}}."
+  },
+  "excluir": {
+    "command": "excluir",
+    "invalid": "comando inválido!",
+    "success": "Comando excluido com sucesso!",
+    "notFound": "Comando ``{{C}}`` não encontrado!",
+    "permission": "Este comando foi criado por <@{{U}}>, somente ele pode excluí-lo!"
+  },
+  "extrato": {
+    "command": "extrato"
+  },
+  "ofender": {
+    "command": "ofender",
+    "loading": "Consultando os deuses do ódio...",
+    "error": "Todos os deuses estão ocupados no momento!"
+  },
+  "proposta": {
+    "command": "proposta",
+    "message": "Queremos voce aqui!!"
+  },
+  "ranking": {
+    "command": "ranking"
+  },
+  "recompensa": {
+    "command": "recompensa",
+    "next": "Próxima recompensa disponível em: {{R}}",
+    "value": "Você ganhou P$ {{V}}"
+  },
+  "registrar": {
+    "command": "registrar",
+    "invalid": "comando inválido!",
+    "exists": "o comando ``{{C}}`` já existe!",
+    "error": "não foi possível criar o comando!",
+    "success": "comando criado com sucesso! Para executa-lo digite ``!{{C}}``."
+  },
+  "saldo": {
+    "command": "saldo",
+    "message": "Seu saldo é: P$ {{B}}"
+  },
+  "stats": {
+    "command": "stats",
+    "title": "Estatisticas",
+    "commands": "Comandos",
+    "users": "Usuários",
+    "mostExec": "Mais executados por usuário",
+    "lastExec": "Ultimos executados"
+  },
+  "trade": {
+    "command": "trade",
+    "invalid": "Comando Inválido",
+    "noBalance": "Você não possui saldo suficiente para esta operação.",
+    "lose": "Você perdeu P$ {{V}}",
+    "win": "Você ganhou P$ {{V}}"
+  }
+}
