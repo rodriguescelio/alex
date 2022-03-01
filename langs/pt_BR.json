@@ -54,6 +54,15 @@
     "loading": "Consultando os deuses do ódio...",
     "error": "Todos os deuses estão ocupados no momento!"
   },
+  "palavra": {
+    "command": "palavra",
+    "message": "Palavra do dia! Acerte e ganhe P$ 200.",
+    "nextTry": "Intervalo entre tentativas do mesmo usuário de 2 minutos! Próxima tentativa às {{H}}.",
+    "wrong": "Palavra incorreta",
+    "bankLabel": "Acerto - Palavra do Dia",
+    "right": "Correto! Você acertou e ganhou P$ 200. Parabéns!",
+    "alreadyAnswered": "Desafio do dia finalizado! Respondido corretamente por ``{{U}}``."
+  },
   "proposta": {
     "command": "proposta",
     "message": "Queremos voce aqui!!"
