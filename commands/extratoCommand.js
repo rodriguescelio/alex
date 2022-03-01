@@ -5,7 +5,6 @@ class ExtratoCommand {
     this.client = client;
     this.i18n = client.i18n.extrato;
     this.command = this.i18n.command;
-    console.log(this.client.i18n);
   }
 
   async exec(event) {
