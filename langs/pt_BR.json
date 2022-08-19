@@ -100,5 +100,9 @@
     "noBalance": "Você não possui saldo suficiente para esta operação.",
     "lose": "Você perdeu P$ {{V}}",
     "win": "Você ganhou P$ {{V}}"
+  },
+  "governo": {
+    "command": "governo",
+    "loading": "Calculando, aguarde..."
   }
 }

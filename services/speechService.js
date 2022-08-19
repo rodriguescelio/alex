@@ -27,7 +27,7 @@ class SpeechService {
 
   convert(voiceIndex, text) {
     const voice = this.getLanguage(voiceIndex);
-    const options = { text, accept: 'audio/wav', voice };
+    const options = { text, accept: 'audio/mp3', voice };
     
     return new Promise(resolve => {
       this.textToSpeech
