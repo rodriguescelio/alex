@@ -14,19 +14,28 @@ class AudiosCommand {
   }
 
   async onInteraction(interaction) {
-    if (interaction.isButton() && interaction.customId.indexOf('audiosCommand') === 0) {
-      const command = await this.client.databaseService.models.command.findOne({
-        where: { 
-          command: interaction.customId.replace('audiosCommand-', ''),
-        },
-      });
-
-      if (command) {
-        this.saveStatistic(command.command, interaction.user.id);
-        const audio = await axios.get(command.audio, { responseType: 'arraybuffer' }).then(res => res.data);
-        await this.client.voiceService.stream(interaction, audio);
-        await interaction.deferUpdate();
+    try {
+      if (interaction.isButton() && interaction.customId.indexOf('audiosCommand') === 0) {
+        const command = await this.client.databaseService.models.command.findOne({
+          where: { 
+            command: interaction.customId.replace('audiosCommand-', ''),
+          },
+        });
+        
+        if (command) {
+          this.saveStatistic(command.command, interaction.user.id);
+          const audio = await axios.get(command.audio, { responseType: 'arraybuffer' }).then(res => res.data);
+          await this.client.voiceService.stream(interaction, audio);
+          await interaction.deferUpdate();
+        }
       }
+    } catch (e) {
+      if (e.request && e.response) {
+	console.log();
+        console.error(e.response.config.url, e.response.status, e.response.data.toString('utf8'), '\n');
+      } else {
+        console.error(e.message);
+      } 
     }
   }
 

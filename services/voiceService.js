@@ -16,7 +16,7 @@ class VoiceService {
 
   quit() {
     if (this.connection) {
-      if (this.connection.state.networking.state.connectionData.speaking) {
+      if (this.connection.state.networking.state.connectionData && this.connection.state.networking.state.connectionData.speaking) {
         this.quitInterval = setTimeout(this.quit, 5000);
       } else {
         this.connection.destroy();
@@ -32,7 +32,7 @@ class VoiceService {
       this.quitInterval = null;
     }
 
-    if (this.connection.state.networking.state.connectionData.speaking) {
+    if (this.connection.state.networking.state.connectionData && this.connection.state.networking.state.connectionData.speaking) {
       this.queue.push(file);
     } else {
       const audioPlayer = createAudioPlayer();

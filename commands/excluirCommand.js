@@ -20,14 +20,9 @@ class ExcluirCommand {
         });
 
         if (command) {
-          if (command.createdBy === event.author.id) {
-            await this.client.databaseService.models.command.destroy({ where: { id: command.id } });
-            await this.client.databaseService.loadCommands();
-
-            message = this.i18n.success;
-          } else {
-            message = this.i18n.permission.replace('{{U}}', command.createdBy);
-          }
+          await this.client.databaseService.models.command.destroy({ where: { id: command.id } });
+          await this.client.databaseService.loadCommands();
+          message = this.i18n.success;
         } else {
           message = this.i18n.notFound.replace('{{C}}', args.command);
         }

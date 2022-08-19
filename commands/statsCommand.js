@@ -34,13 +34,13 @@ class StatsCommand {
     const commandKeys = Object.keys(ranking.commands);
     commandKeys.sort((a, b) => ranking.commands[b] - ranking.commands[a]);
 
-    const commands = commandKeys.map(it => `!${it} - ${ranking.commands[it]}x`).join('\n');
+    const commands = commandKeys.map(it => `!${it} - ${ranking.commands[it]}x`);
 
     const userKeys = Object.keys(ranking.users);
     userKeys.sort((a, b) => ranking.users[b] - ranking.users[a]);
 
     const userData = await Promise.all(userKeys.map(it => this.client.users.fetch(it)));
-    const users = userData.map(it => `${it.username} - ${ranking.users[it.id]}x`).join('\n');
+    const users = userData.map(it => `${it.username} - ${ranking.users[it.id]}x`);
 
     const mostExecutedByUser = userKeys.map(userId => {
       const statsUser = stats.filter(it => it.user === userId)
@@ -61,9 +61,11 @@ class StatsCommand {
 
     const mostExecuted = mostExecutedByUser.map(
       userStats => `${userData.find(it => it.id.toString() === userStats.userId).username} - !${userStats.command} - ${userStats.count}x`
-    ).join('\n');
+    );
 
-    const lastExecuteds = Array.from(Array(10), (_, k) => stats[k] || null).filter(it => !!it).map(
+    const limit = (list, size) => Array.from(Array(size), (_, k) => list[k] || null).filter(it => !!it);
+
+    const lastExecuteds = limit(stats, 10).map(
       it => `${this.dateToString(it.createdAt)} - !${it.command} - ${userData.find(u => u.id.toString() === it.user).username}`
     ).join('\n');
 
@@ -71,9 +73,9 @@ class StatsCommand {
       .setColor('#0099ff')
       .setTitle(this.i18n.title)
       .addFields(
-        { name: this.i18n.commands, value: commands, inline: true },
-        { name: this.i18n.users, value: users, inline: true },
-        { name: this.i18n.mostExec, value: mostExecuted, inline: true },
+        { name: this.i18n.commands, value: limit(commands, 10).join('\n'), inline: true },
+        { name: this.i18n.users, value: limit(users, 10).join('\n'), inline: true },
+        { name: this.i18n.mostExec, value: limit(mostExecuted, 10).join('\n'), inline: true },
         { name: this.i18n.lastExec, value: lastExecuteds },
       );
 
