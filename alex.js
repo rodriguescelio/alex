@@ -3,12 +3,16 @@ const { readdirSync, existsSync } = require('fs');
 const { join } = require('path');
 const { parse } = require('discord-command-parser');
 const commandLineArgs = require('command-line-args');
+const express = require('express');
+const { json } = require('body-parser');
+const cors = require('cors');
 
 const DatabaseService = require('./services/databaseService');
 const SpeechService = require('./services/speechService');
 const TranslatorService = require('./services/translatorService');
 const VoiceService = require('./services/voiceService');
 const BankService = require('./services/bankService');
+const WebSessionHolderService = require('./services/webSessionHolderService');
 
 class Alex extends Client {
   constructor(config) {
@@ -27,10 +31,13 @@ class Alex extends Client {
     this.voiceService = new VoiceService();
     this.databaseService = new DatabaseService();
     this.bankService = new BankService(this);
+    this.sessionHolderService = new WebSessionHolderService();
 
     this.loadLanguage();
     this.registerEvents();
     this.registerCommands();
+
+    this.initWeb();
   }
 
   loadLanguage() {
@@ -44,6 +51,22 @@ class Alex extends Client {
 
     const i18n = require(file);
     Object.keys(i18n).forEach(key => (this.i18n[key] = i18n[key]));
+  }
+
+  initWeb() {
+    const app = express();
+
+    app.use(cors());
+    app.use(json());
+
+    readdirSync(this.config.routes).forEach(file => {
+      const route = require(join(this.config.routes, file));
+      route(app, this);
+    });
+
+    app.listen(process.env.WEB_PORT, () => {
+      console.log(`Web server running on *:${process.env.WEB_PORT}`);
+    });
   }
 
   registerEvents() {

@@ -31,7 +31,6 @@ class AudiosCommand {
       }
     } catch (e) {
       if (e.request && e.response) {
-	console.log();
         console.error(e.response.config.url, e.response.status, e.response.data.toString('utf8'), '\n');
       } else {
         console.error(e.message);

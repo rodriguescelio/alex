@@ -104,5 +104,8 @@
   "governo": {
     "command": "governo",
     "loading": "Calculando, aguarde..."
+  },
+  "web": {
+    "command": "web"
   }
 }
